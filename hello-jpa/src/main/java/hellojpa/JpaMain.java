@@ -16,28 +16,40 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // JPA 등록
+            // JPA - 객체생성 (비영속)
 //            Member member = new Member();
 //            member.setId(2L);
 //            member.setName("HelloB");
+            // JPA - 객체저장 (영속)
 //            em.persist(member);
 
-            // JPA 조회
+            // JPA - 조회
 //            Member findMember = em.find(Member.class, 1L);
 //            findMember.setName("HelloJPA");
 
-            // JPQL 조회
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5) // 페이지처리
-                    .setMaxResults(8)
-                    .getResultList();
-            for(Member member: result) {
-                System.out.println("member.name = " + member.getName());
-            }
-
+            // JPQL - 조회
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+//                    .setFirstResult(5) // 페이지처리
+//                    .setMaxResults(8)
+//                    .getResultList();
+//            for(Member member: result) {
+//                System.out.println("member.name = " + member.getName());
+//            }
 
             // JPA 삭제
 //            em.remove(findMember);
+
+
+            // 플러시 직접호출
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//            em.flush();
+
+            // 준영속 상태로 변경하기
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("AAAA");
+//            em.detach(member);
+            // 준영속상태가 되어 update 쿼리가 발생하지 않는다.
 
             tx.commit();
         } catch (Exception e) {
