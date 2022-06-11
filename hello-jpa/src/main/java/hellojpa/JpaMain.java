@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -52,27 +53,57 @@ public class JpaMain {
 //            em.detach(member);
             // 준영속상태가 되어 update 쿼리가 발생하지 않는다.
 
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
 
+            /**
+             * 연관관계매핑
+             */
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.changeTeam(team); // **
+//            em.persist(member);
+//
+//            // team.getMembers().add(member); // ** Member에서 set할때 값을 같이 넣어주고 여기는 생략해준다.
+//
+//            em.flush();
+//            em.clear();
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            List<Member> members = findMember.getTeam().getMembers();
+//
+//            for(Member m : members) {
+//                System.out.println("m = " + m.getUsername());
+//            }
+
+            /**
+             * 고급 매핑
+             */
+//            Movie movie = new Movie();
+//            movie.setDirector("aaa");
+//            movie.setActor("bbb");
+//            movie.setName("바람과함께");
+//            movie.setPrice(10000);
+//            em.persist(movie);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Movie findMovie = em.find(Movie.class, movie.getId());
+//            System.out.println("findMovie = " + findMovie);
+
+            /**
+             * MappedSuperclass
+             */
             Member member = new Member();
-            member.setUsername("member1");
-            member.changeTeam(team); // **
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
             em.persist(member);
-            
-            // team.getMembers().add(member); // ** Member에서 set할때 값을 같이 넣어주고 여기는 생략해준다.
 
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
-
-            for(Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
-
 
             tx.commit();
         } catch (Exception e) {

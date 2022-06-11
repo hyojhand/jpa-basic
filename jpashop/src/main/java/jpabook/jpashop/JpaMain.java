@@ -1,5 +1,6 @@
 package jpabook.jpashop;
 
+import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 
@@ -17,10 +18,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Order order = new Order();
-//            order.addOrderItem(new OrderItem()); 양방향매핑시 반대쪽 넣어주기
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
+//            Order order = new Order();
+////            order.addOrderItem(new OrderItem()); 양방향매핑시 반대쪽 넣어주기
+//            OrderItem orderItem = new OrderItem();
+//            orderItem.setOrder(order);
+
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("Son");
+
+            em.persist(book);
 
             tx.commit();
         } catch (Exception e) {
