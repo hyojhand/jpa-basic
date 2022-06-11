@@ -4,32 +4,18 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-//@SequenceGenerator(name = "MEMBER_SEQ_GENERATOR", sequenceName = "MEMBER_SEQ", initialValue = 1, allocationSize = 1)
-@TableGenerator(name = "MEMBER_SEQ_GENERATOR", table = "MY_SEQUENCES", pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
 public class Member {
 
-    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "USERNAME")
     private String username;
 
-    private Integer age;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @Lob
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Member() {
     }
@@ -50,43 +36,16 @@ public class Member {
         this.username = username;
     }
 
-    public Integer getAge() {
-        return age;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this); // 객체관계를 고려하여 양쪽에 값을 입력한다.
     }
 }

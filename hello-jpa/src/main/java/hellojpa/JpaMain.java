@@ -16,6 +16,7 @@ public class JpaMain {
         tx.begin();
 
         try {
+
             // JPA - 객체생성 (비영속)
 //            Member member = new Member();
 //            member.setId(2L);
@@ -50,6 +51,28 @@ public class JpaMain {
 //            member.setName("AAAA");
 //            em.detach(member);
             // 준영속상태가 되어 update 쿼리가 발생하지 않는다.
+
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.changeTeam(team); // **
+            em.persist(member);
+            
+            // team.getMembers().add(member); // ** Member에서 set할때 값을 같이 넣어주고 여기는 생략해준다.
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for(Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
+
 
             tx.commit();
         } catch (Exception e) {
