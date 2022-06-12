@@ -130,24 +130,40 @@ public class JpaMain {
             /**
              * 영속성전이 - CASCADE
              */
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+//            em.persist(parent);
+//            // parent persist할때 cascade 지정된 child도 함께 persist 해준다.
+////            em.persist(child1);
+////            em.persist(child2);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Parent findParent = em.find(Parent.class, parent.getId());
+//            findParent.getChildList().remove(0);
 
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Member member = new Member();
+            member.setUsername("member1");
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
+            Member findMember = em.find(Member.class, member.getId());
+            //homeCity -> newCity
+            Address a = findMember.getAddress();
+            findMember.setAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
 
-            em.persist(parent);
-            // parent persist할때 cascade 지정된 child도 함께 persist 해준다.
-//            em.persist(child1);
-//            em.persist(child2);
+            // 치킨 -> 피자
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("피자");
 
-            em.flush();
-            em.clear();
+            // old -> new
+            findMember.getAddressHistory().remove(new Address("old","street","10000"));
+            findMember.getAddressHistory().add(new Address("new","street","10000"));
 
-            Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
