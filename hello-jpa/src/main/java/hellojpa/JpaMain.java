@@ -148,21 +148,28 @@ public class JpaMain {
 //            Parent findParent = em.find(Parent.class, parent.getId());
 //            findParent.getChildList().remove(0);
 
-            Member member = new Member();
-            member.setUsername("member1");
+            /**
+             * 값 타입
+             */
+//            Member member = new Member();
+//            member.setUsername("member1");
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            //homeCity -> newCity
+//            Address a = findMember.getAddress();
+//            findMember.setAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
+//
+//            // 치킨 -> 피자
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("피자");
+//
+//            // old -> new
+//            findMember.getAddressHistory().remove(new Address("old","street","10000"));
+//            findMember.getAddressHistory().add(new Address("new","street","10000"));
 
-            Member findMember = em.find(Member.class, member.getId());
-            //homeCity -> newCity
-            Address a = findMember.getAddress();
-            findMember.setAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
-
-            // 치킨 -> 피자
-            findMember.getFavoriteFoods().remove("치킨");
-            findMember.getFavoriteFoods().add("피자");
-
-            // old -> new
-            findMember.getAddressHistory().remove(new Address("old","street","10000"));
-            findMember.getAddressHistory().add(new Address("new","street","10000"));
+            List<Member> result = em.createQuery(
+                    "select m from Member m where m.username like '%kim%'", Member.class
+            ).getResultList();
 
 
             tx.commit();
